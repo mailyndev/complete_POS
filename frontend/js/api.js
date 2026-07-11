@@ -1,6 +1,10 @@
-// Wrapper de llamadas HTTP a la API REST
+const getApiBaseUrl = () => {
+  const savedUrl = localStorage.getItem("pos_api_base_url");
+  if (savedUrl) return savedUrl;
+  return window.location.origin + "/api";
+};
 
-const API_BASE_URL = window.location.origin + "/api";
+const API_BASE_URL = getApiBaseUrl();
 
 export const API = {
   // Guardar token en almacenamiento local

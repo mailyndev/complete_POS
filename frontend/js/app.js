@@ -304,6 +304,11 @@ export const App = {
           <input type="password" id="login-password" class="input-field" placeholder="••••••••" autocomplete="current-password">
         </div>
         <button id="login-submit-btn" class="btn btn-primary mt-4">Iniciar Sesión</button>
+        <div style="text-align: center; margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px;">
+          <a href="#" id="login-cfg-api-btn" style="font-size: 0.78rem; color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: color var(--transition-fast);">
+            ⚙️ Configurar Servidor
+          </a>
+        </div>
       </div>
     `;
     
@@ -353,6 +358,27 @@ export const App = {
         handleLoginSubmit();
       }
     });
+
+    // Configuración de API URL
+    const cfgBtn = document.getElementById("login-cfg-api-btn");
+    cfgBtn.onclick = (e) => {
+      e.preventDefault();
+      const currentUrl = localStorage.getItem("pos_api_base_url") || window.location.origin + "/api";
+      const newUrl = prompt("⚙️ Configuración de Servidor Backend:\nEscriba la URL de la API de su backend (ej: https://api.mi-pos.com/api):", currentUrl);
+      if (newUrl !== null) {
+        const cleanedUrl = newUrl.trim();
+        if (cleanedUrl) {
+          const formattedUrl = cleanedUrl.endsWith("/") ? cleanedUrl.slice(0, -1) : cleanedUrl;
+          localStorage.setItem("pos_api_base_url", formattedUrl);
+          this.showToast("Configuración Guardada", "URL de API actualizada. Recargando...", "success");
+          setTimeout(() => window.location.reload(), 1200);
+        } else {
+          localStorage.removeItem("pos_api_base_url");
+          this.showToast("Restaurado", "Se usará la URL por defecto. Recargando...", "info");
+          setTimeout(() => window.location.reload(), 1200);
+        }
+      }
+    };
   },
 
   async loadUserProfile() {

@@ -45,10 +45,16 @@ async def add_no_cache_headers(request: Request, call_next):
         response.headers["Expires"] = "0"
     return response
 
-# Configurar CORS para permitir peticiones desde cualquier origen (muy útil en despliegues locales e híbridos)
+# Configurar CORS para permitir peticiones desde orígenes configurados o cualquier origen (muy útil en despliegues locales e híbridos)
+allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "*")
+if allowed_origins_str == "*":
+    allowed_origins = ["*"]
+else:
+    allowed_origins = [origin.strip() for origin in allowed_origins_str.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

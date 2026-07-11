@@ -1,0 +1,153 @@
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+/* Stat Cards */
+.stat-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-glow);
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-color);
+  font-size: 1.25rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.stat-card:hover .stat-icon {
+  background-color: var(--brand-glow);
+}
+
+.stat-footer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Alerters indicators - Clean visual design without heavy side borders */
+.stat-card.alert-critical .stat-icon {
+  background-color: rgba(198, 40, 40, 0.1);
+  color: var(--error);
+}
+.stat-card.alert-warning .stat-icon {
+  background-color: rgba(216, 67, 21, 0.1);
+  color: var(--warning);
+}
+
+/* Dashboard Sections Layout */
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.dashboard-panel {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.panel-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+/* Expiration and stock alerts UI */
+.alert-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.alert-row:last-child {
+  border-bottom: none;
+}
+
+.alert-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alert-item-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.alert-item-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.alert-level {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.level-critical { background-color: rgba(239, 68, 68, 0.1); color: var(--error); }
+.level-warning { background-color: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.level-info { background-color: rgba(6, 182, 212, 0.1); color: var(--info); }

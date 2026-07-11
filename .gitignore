@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Databases and Backups
+*.db
+*.db-journal
+*.db-wal
+*.bak
+backups/
+
+# Large Files & Local Cache
+backend/database/cabys.csv
+
+# Uploads and User Assets
+uploads/productos/
+uploads/empresa/logo.jpg
+uploads/facturas/
+uploads/tickets/
+
+# Environment Variables
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

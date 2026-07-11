@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minisúper M Y M - ERP & POS</title>
+  
+  <!-- Logger de Diagnóstico de Errores Globales para depurar problemas de carga de Javascript -->
+  <script>
+    (function() {
+      function showDiagError(title, detail) {
+        let overlay = document.getElementById('debug-error-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'debug-error-overlay';
+          overlay.style.position = 'fixed';
+          overlay.style.bottom = '20px';
+          overlay.style.right = '20px';
+          overlay.style.backgroundColor = '#ffdddd';
+          overlay.style.color = '#aa0000';
+          overlay.style.border = '2px solid #ff8888';
+          overlay.style.padding = '20px';
+          overlay.style.borderRadius = '8px';
+          overlay.style.zIndex = '100000';
+          overlay.style.fontFamily = 'monospace';
+          overlay.style.fontSize = '13px';
+          overlay.style.maxWidth = '500px';
+          overlay.style.maxHeight = '300px';
+          overlay.style.overflow = 'auto';
+          overlay.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+          overlay.innerHTML = '<h3 style="margin-top:0; color:#aa0000; font-size:14px;">⚠️ Error de Sistema (Diagnóstico)</h3><div id="debug-error-list"></div>';
+          document.body.appendChild(overlay);
+        }
+        const list = document.getElementById('debug-error-list');
+        const errDiv = document.createElement('div');
+        errDiv.style.borderTop = '1px solid #ffcccc';
+        errDiv.style.paddingTop = '8px';
+        errDiv.style.marginTop = '8px';
+        errDiv.innerHTML = '<strong>' + title + ':</strong> ' + detail;
+        list.appendChild(errDiv);
+      }
+
+      window.addEventListener('error', function(e) {
+        showDiagError('Error de Ejecución', e.message + ' (en ' + e.filename + ':' + e.lineno + ':' + e.colno + ')');
+      });
+
+      window.addEventListener('unhandledrejection', function(e) {
+        const msg = (e.reason && (e.reason.message || e.reason.stack)) ? (e.reason.message || e.reason.stack) : JSON.stringify(e.reason);
+        showDiagError('Promesa sin capturar', msg);
+      });
+    })();
+  </script>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/pos.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  
+  <!-- Chart.js CDN for interactive charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- App Main Wrapper -->
+  <div class="app-container">
+    
+    <!-- SIDEBAR DE NAVEGACIÓN -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-logo">
+          <img id="sidebar-logo-img" src="/static/uploads/empresa/logo.jpg" alt="Logo" style="height: 36px; max-width: 36px; border-radius: 4px; object-fit: contain; display: none;">
+          <div id="sidebar-logo-icon" class="logo-icon">🏪</div>
+          <div id="sidebar-logo-text" class="logo-text">Minisúper M Y M</div>
+        </div>
+        
+        <ul class="nav-links">
+          <li class="nav-item active" id="nav-dashboard">
+            <a href="#" data-view="dashboard">📊 Dashboard</a>
+          </li>
+          <li class="nav-item" id="nav-pos">
+            <a href="#" data-view="pos">🛒 Punto de Venta (POS)</a>
+          </li>
+          <li class="nav-item" id="nav-inventory">
+            <a href="#" data-view="inventory">📦 Inventario</a>
+          </li>
+          <li class="nav-item" id="nav-purchases">
+            <a href="#" data-view="purchases">🚚 Compras y Prov</a>
+          </li>
+          <li class="nav-item" id="nav-clients">
+            <a href="#" data-view="clients">👥 Clientes y Créditos</a>
+          </li>
+          <li class="nav-item" id="nav-cash">
+            <a href="#" data-view="cash">💵 Caja Chica</a>
+          </li>
+          <li class="nav-item" id="nav-reports">
+            <a href="#" data-view="reports">📈 Analíticas</a>
+          </li>
+          <li class="nav-item" id="nav-billing">
+            <a href="#" data-view="billing">⚡ Factura Electrónica</a>
+          </li>
+          <li class="nav-item" id="nav-settings">
+            <a href="#" data-view="settings">⚙️ Configuración</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="user-avatar" id="user-avatar-initials">AD</div>
+          <div class="user-info">
+            <span class="user-name" id="user-profile-name">Administrador</span>
+            <span class="user-role" id="user-profile-role">Administrador General</span>
+          </div>
+        </div>
+        
+        <button class="theme-btn" id="theme-toggle">🌙 Modo Oscuro</button>
+        
+        <a href="#" class="btn btn-secondary" id="logout-btn" style="text-align: center; width: 100%;">
+          🚪 Cerrar Sesión
+        </a>
+      </div>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO CENTRAL -->
+    <main class="main-content">
+      
+      <!-- CABECERA SUPERIOR -->
+      <header class="top-header">
+        <div class="header-title">
+          <h2 id="header-title-text">Dashboard Ejecutivo</h2>
+        </div>
+        
+        <div class="header-actions">
+          <div class="status-badge">
+            <span class="status-dot" id="connection-dot"></span>
+            <span id="connection-text">En Línea</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- CUERPO DE VISTAS DINÁMICAS -->
+      <section class="content-body" id="content-body-root">
+        <!-- Las vistas SPA se inyectan dinámicamente mediante javascript -->
+        <div style="text-align: center; padding: 100px; color: var(--text-muted);">
+          Cargando entorno empresarial...
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Raíz para Notificaciones Toast -->
+  <div id="toast-root" class="toast-container"></div>
+
+  <!-- Entrypoint de Lógica JS Modular -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

@@ -85,6 +85,12 @@ if os.path.exists("frontend/js"):
 if os.path.exists("uploads"):
     app.mount("/static/uploads", StaticFiles(directory="uploads"), name="uploads")
 
+# Endpoint de estado para verificación de despliegue (Health Check)
+@app.get("/health", tags=["Salud"])
+def health_check():
+    from datetime import datetime
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
 # Ruta principal que sirve el index.html del SPA
 @app.get("/")
 def read_index():
